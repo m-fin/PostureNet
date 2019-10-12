@@ -71,12 +71,18 @@ function calculateStatistics() {
     document.getElementById("breakTimer").innerHTML = "0:00";
   }
 
+  document.getElementById("isStanding").innerHTML = posture.isStanding;
+
   if (s === -1) {
     alert("Time to take a break!");
   }
 }
 
 function postureAlgorithm() {
+  if (poses.length === 0) {
+    posture.isStanding = true;
+  }
+
   for (let i = 0; i < poses.length; i++) {
     // For each pose detected, loop through all the keypoints
     let pose = poses[i].pose;
@@ -152,8 +158,6 @@ function postureAlgorithm() {
     let shoulderToHipDifferenceX = dominantShoulder.position.x - dominantHip.position.x;
     let earToShoulderDifferenceX = dominantEar.position.x - dominantShoulder.position.x;
     let kneeToHipDifferenceY = dominantKnee.position.y - dominantHip.position.y;
-
-
 
     // Set isGoodShoulderPosture
     if (abs(shoulderToHipDifferenceX) < 30) {
