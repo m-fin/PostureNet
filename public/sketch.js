@@ -63,7 +63,7 @@ function calculateStatistics() {
   }
 
   // let s = 25 * 60 - posture.timeSitting;
-  let s = 10 - posture.timeSitting;
+  let s = 25 * 60 - posture.timeSitting;
   if (s > 0) {
     document.getElementById("breakTimer").innerHTML = (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s;
   }
