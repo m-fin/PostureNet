@@ -1,5 +1,3 @@
-
-
 let video;
 let poseNet;
 let poses = [];
@@ -14,7 +12,15 @@ var posture = {
 }
 
 function setup() {
-  createCanvas(640, 480);
+  var path = window.location.pathname;
+  var page = path.split("/").pop();
+
+  if (page === "stats.html") {
+    createCanvas(0, 0);
+  }
+  else {
+    createCanvas(640, 480);
+  }
   video = createCapture(VIDEO);
   video.size(width, height);
 
@@ -157,7 +163,7 @@ function postureAlgorithm() {
       posture.isStanding = false;
     }
 
-  
+
   }
 }
 
