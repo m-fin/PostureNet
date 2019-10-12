@@ -1,3 +1,5 @@
+
+
 let video;
 let poseNet;
 let poses = [];
@@ -118,7 +120,7 @@ function postureAlgorithm() {
     let earToShoulderDifferenceX = dominantEar.position.x - dominantShoulder.position.x;
     let kneeToHipDifferenceY = dominantKnee.position.y - dominantHip.position.y;
 
-    document.getElementById("output").innerHTML = kneeToHipDifferenceY;
+
 
     // Set isGoodShoulderPosture
     if (abs(shoulderToHipDifferenceX) < 30) {
@@ -136,7 +138,6 @@ function postureAlgorithm() {
       posture.isGoodHeadPosture = false;
     }
 
-    // Set overall isGoodPosture if all postures are good
     if (posture.isGoodShoulderPosture && posture.isGoodHeadPosture) {
       posture.isGoodPosture = true;
     }
@@ -156,7 +157,7 @@ function postureAlgorithm() {
       posture.isStanding = false;
     }
 
-    document.getElementById("output").innerHTML = posture.isStanding;
+  
   }
 }
 
