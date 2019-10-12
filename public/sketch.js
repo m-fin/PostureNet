@@ -65,10 +65,10 @@ function calculateStatistics() {
   // let s = 25 * 60 - posture.timeSitting;
   let s = 25 * 60 - posture.timeSitting;
   if (s > 0) {
-    document.getElementById("breakTimer").innerHTML = (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s;
+    document.getElementById("sittingTimer").innerHTML = (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s;
   }
   else {
-    document.getElementById("breakTimer").innerHTML = "0:00";
+    document.getElementById("sittingTimer").innerHTML = "0:00";
   }
 
   document.getElementById("isStanding").innerHTML = posture.isStanding;
@@ -76,6 +76,28 @@ function calculateStatistics() {
   if (s === -1) {
     alert("Time to take a break!");
   }
+
+  // Shoulder card
+  if (!posture.isGoodShoulderPosture) {
+    document.getElementById("displayShoulderPosture").classList.add("bg-danger");
+    document.getElementById("displayShoulderPostureSubtext").innerHTML = "Keep your spine straight and your shoulders back.";
+  }
+  else {
+    document.getElementById("displayShoulderPosture").classList.remove("bg-danger");
+    document.getElementById("displayShoulderPostureSubtext").innerHTML = "Good Posture!";
+  }
+
+  // Head card
+  if (!posture.isGoodHeadPosture) {
+    document.getElementById("displayHeadPosture").classList.add("bg-danger");
+    document.getElementById("displayHeadPostureSubtext").innerHTML = "Keep your head up and your eyes level.";
+  }
+  else {
+    document.getElementById("displayHeadPosture").classList.remove("bg-danger");
+    document.getElementById("displayHeadPostureSubtext").innerHTML = "Good Posture!";
+  }
+
+  // if (!posture.isGoodHeadPosture)
 }
 
 function postureAlgorithm() {
