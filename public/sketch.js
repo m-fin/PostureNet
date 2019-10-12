@@ -136,6 +136,7 @@ function postureAlgorithm() {
       posture.isGoodHeadPosture = false;
     }
 
+    // Set overall isGoodPosture if all postures are good
     if (posture.isGoodShoulderPosture && posture.isGoodHeadPosture) {
       posture.isGoodPosture = true;
     }
