@@ -25,14 +25,15 @@ function modelReady() {
 function draw() {
   image(video, 0, 0, width, height);
 
+  isGoodPosture();
+  isStanding();
+
   // We can call both functions to draw all keypoints and the skeletons
   drawKeypoints();
   drawSkeleton();
 }
 
-// A function to draw ellipses over the detected keypoints
-function drawKeypoints() {
-  // Loop through all the poses detected
+function isGoodPosture() {
   for (let i = 0; i < poses.length; i++) {
     // For each pose detected, loop through all the keypoints
     let pose = poses[i].pose;
@@ -56,23 +57,59 @@ function drawKeypoints() {
     }
 
     let earToHipDifference = dominantEar.position.x - dominantHip.position.x;
-    document.getElementById("output").innerHTML = abs(earToHipDifference);
 
-    let goodPosture = false;
+    // let goodPosture = false;
     if (abs(earToHipDifference) < 30) {
-      goodPosture = true;
+      return true;
     }
+    else {
+      return false;
+    }
+  }
+}
+
+function isStanding() {
+  for (let i = 0; i < poses.length; i++) {
+    // For each pose detected, loop through all the keypoints
+    let pose = poses[i].pose;
+
+    leftHip = pose.keypoints[11];
+    rightHip = pose.keypoints[12];
+
+    leftKnee = pose.keypoints[13];
+    rightKnee = pose.keypoints[14];
+
+    averageHipPositionY = (leftHip.position.y + rightHip.position.y) / 2;
+    averageKneePositionY = (leftKnee.position.y + rightKnee.position.y) / 2;
+
+    let isStanding = false;
+    differenceBetweenAverageHipAndKneePositionY = averageHipPositionY - averageKneePositionY;
+
+    if (abs(differenceBetweenAverageHipAndKneePositionY) > 50) {
+      isStanding = true;
+    }
+
+    document.getElementById("output").innerHTML = isStanding;
+
+    return isStanding;
+  }
+}
+
+
+// A function to draw ellipses over the detected keypoints
+function drawKeypoints() {
+  // Loop through all the poses detected
+  for (let i = 0; i < poses.length; i++) {
+    // For each pose detected, loop through all the keypoints
+
+    let pose = poses[i].pose;
 
     for (let j = 0; j < pose.keypoints.length; j++) {
       // A keypoint is an object describing a body part (like rightArm or leftShoulder)
       let keypoint = pose.keypoints[j];
-
-      // Debug
-
-
       // Only draw an ellipse is the pose probability is bigger than 0.2
       if (keypoint.score > 0.2) {
-        if (goodPosture) {
+        if (isGoodPosture()) {
           fill(0, 255, 0);
         }
         else {
@@ -80,8 +117,6 @@ function drawKeypoints() {
         }
         noStroke();
         ellipse(keypoint.position.x, keypoint.position.y, 10, 10);
-
-
       }
     }
   }
@@ -96,7 +131,12 @@ function drawSkeleton() {
     for (let j = 0; j < skeleton.length; j++) {
       let partA = skeleton[j][0];
       let partB = skeleton[j][1];
-      stroke(255, 0, 0);
+      if (isGoodPosture()) {
+        stroke(0, 255, 0);
+      }
+      else {
+        stroke(255, 0, 0);
+      }
       line(partA.position.x, partA.position.y, partB.position.x, partB.position.y);
     }
   }
