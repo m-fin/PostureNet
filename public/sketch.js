@@ -8,7 +8,10 @@ var posture = {
   isGoodLegPosture: false,
   isGoodAnklePosture: false,
   isGoodPosture: false,
-  isStanding: false
+  isStanding: false,
+
+  timeSitting: 0,
+  timeStanding: 0
 }
 
 function setup() {
@@ -47,6 +50,30 @@ function draw() {
   // We can call both functions to draw all keypoints and the skeletons
   drawKeypoints();
   drawSkeleton();
+}
+
+setInterval(calculateStatistics, 1000);
+
+function calculateStatistics() {
+  if (!posture.isStanding) {
+    posture.timeSitting += 1;
+  }
+  else {
+    posture.timeSitting = 0;
+  }
+
+  // let s = 25 * 60 - posture.timeSitting;
+  let s = 10 - posture.timeSitting;
+  if (s > 0) {
+    document.getElementById("breakTimer").innerHTML = (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s;
+  }
+  else {
+    document.getElementById("breakTimer").innerHTML = "0:00";
+  }
+
+  if (s === -1) {
+    alert("Time to take a break!");
+  }
 }
 
 function postureAlgorithm() {
@@ -156,14 +183,12 @@ function postureAlgorithm() {
     averageKneePositionY = (leftKnee.position.y + rightKnee.position.y) / 2;
     differenceBetweenAverageHipAndKneePositionY = averageHipPositionY - averageKneePositionY;
 
-    if (abs(differenceBetweenAverageHipAndKneePositionY) > 50) {
+    if (abs(differenceBetweenAverageHipAndKneePositionY) > 100) {
       posture.isStanding = true;
     }
     else {
       posture.isStanding = false;
     }
-
-
   }
 }
 
