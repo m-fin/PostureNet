@@ -15,7 +15,7 @@ var posture = {
 
   timeGoodPosture: 0,
   timeBadPosture: 0
-}
+};
 
 function setup() {
   var path = window.location.pathname;
@@ -23,8 +23,7 @@ function setup() {
 
   if (page === "stats.html") {
     createCanvas(0, 0);
-  }
-  else {
+  } else {
     createCanvas(640, 480);
   }
   video = createCapture(VIDEO);
@@ -34,7 +33,7 @@ function setup() {
   poseNet = ml5.poseNet(video, modelReady);
   // This sets up an event that fills the global variable "poses"
   // with an array every time new poses are detected
-  poseNet.on('pose', function (results) {
+  poseNet.on("pose", function(results) {
     poses = results;
   });
   // Hide the video element, and just show the canvas
@@ -42,7 +41,7 @@ function setup() {
 }
 
 function modelReady() {
-  select('#status').html('Model Loaded');
+  select("#status").html("Model Loaded");
 }
 
 function draw() {
@@ -60,42 +59,52 @@ function draw() {
 function postureStatistics() {
   // Shoulder card
   if (!posture.isGoodShoulderPosture) {
-    document.getElementById("displayShoulderPosture").classList.add("bg-danger");
-    document.getElementById("displayShoulderPostureSubtext").innerHTML = "Keep your spine straight and your shoulders back.";
-  }
-  else {
-    document.getElementById("displayShoulderPosture").classList.remove("bg-danger");
-    document.getElementById("displayShoulderPostureSubtext").innerHTML = "Good Posture!";
+    document
+      .getElementById("displayShoulderPosture")
+      .classList.add("bg-danger");
+    document.getElementById("displayShoulderPostureSubtext").innerHTML =
+      "Keep your spine straight and your shoulders back.";
+  } else {
+    document
+      .getElementById("displayShoulderPosture")
+      .classList.remove("bg-danger");
+    document.getElementById("displayShoulderPostureSubtext").innerHTML =
+      "Good Posture!";
   }
 
   // Head card
   if (!posture.isGoodHeadPosture) {
     document.getElementById("displayHeadPosture").classList.add("bg-danger");
-    document.getElementById("displayHeadPostureSubtext").innerHTML = "Keep your head up and your eyes level.";
-  }
-  else {
+    document.getElementById("displayHeadPostureSubtext").innerHTML =
+      "Keep your head up and your eyes level.";
+  } else {
     document.getElementById("displayHeadPosture").classList.remove("bg-danger");
-    document.getElementById("displayHeadPostureSubtext").innerHTML = "Good Posture!";
+    document.getElementById("displayHeadPostureSubtext").innerHTML =
+      "Good Posture!";
   }
 
   // Legs card
   if (!posture.isGoodLegPosture) {
     document.getElementById("displayLegPosture").classList.add("bg-danger");
-    document.getElementById("displayLegPostureSubtext").innerHTML = "Keep your legs parallel to the floor.";
-  }
-  else {
+    document.getElementById("displayLegPostureSubtext").innerHTML =
+      "Keep your legs parallel to the floor.";
+  } else {
     document.getElementById("displayLegPosture").classList.remove("bg-danger");
-    document.getElementById("displayLegPostureSubtext").innerHTML = "Good Posture!";
+    document.getElementById("displayLegPostureSubtext").innerHTML =
+      "Good Posture!";
   }
 
   // Legs card
   if (!posture.isGoodAnklePosture) {
     document.getElementById("displayAnklePosture").classList.add("bg-danger");
-    document.getElementById("displayAnklePostureSubtext").innerHTML = "Keep your feet perpendicular to the floor.";
-  }
-  else {
-    document.getElementById("displayAnklePosture").classList.remove("bg-danger");
-    document.getElementById("displayAnklePostureSubtext").innerHTML = "Good Posture!";
+    document.getElementById("displayAnklePostureSubtext").innerHTML =
+      "Keep your feet perpendicular to the floor.";
+  } else {
+    document
+      .getElementById("displayAnklePosture")
+      .classList.remove("bg-danger");
+    document.getElementById("displayAnklePostureSubtext").innerHTML =
+      "Good Posture!";
   }
 }
 
@@ -103,8 +112,7 @@ setInterval(postureChart, 1000);
 function postureChart() {
   if (posture.isGoodPosture) {
     posture.timeGoodPosture += 1;
-  }
-  else {
+  } else {
     posture.timeBadPosture += 1;
   }
 
@@ -113,7 +121,33 @@ function postureChart() {
   let percentageBadPosture = posture.timeBadPosture / totalPostureTime;
 
   //Chart
-  new Chart(document.getElementById("myChart"), { "type": "doughnut", "data": { "labels": ["Red", "Blue", "Yellow"], "datasets": [{ "label": "My First Dataset", "data": [300, 50, 100], "backgroundColor": ["rgb(255, 99, 132)", "rgb(54, 162, 235)", "rgb(255, 205, 86)"] }] } });
+
+  new Chart(document.getElementById("postureChart"), {
+    type: "doughnut",
+    options: {
+      animation: {
+        duration: 0
+      },
+    
+
+      
+      },
+
+    data: {
+      labels: ["Red", "Blue", "Yellow"],
+      datasets: [
+        {
+          label: "My First Dataset",
+          data: [po, 50, 100],
+          backgroundColor: [
+            "rgb(255, 99, 132)",
+            "rgb(54, 162, 235)",
+            "rgb(255, 205, 86)"
+          ]
+        }
+      ]
+    }
+  });
 
   // var chart = new CanvasJS.Chart("chartContainer", {
   //   data: [{
@@ -134,17 +168,16 @@ setInterval(sittingTimer, 1000);
 function sittingTimer() {
   if (!posture.isStanding) {
     posture.timeSitting += 1;
-  }
-  else {
+  } else {
     posture.timeSitting = 0;
   }
 
   // let s = 25 * 60 - posture.timeSitting;
   let s = 25 * 60 - posture.timeSitting;
   if (s > 0) {
-    document.getElementById("sittingTimer").innerHTML = (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s;
-  }
-  else {
+    document.getElementById("sittingTimer").innerHTML =
+      (s - (s %= 60)) / 60 + (9 < s ? ":" : ":0") + s;
+  } else {
     document.getElementById("sittingTimer").innerHTML = "0:00";
   }
 
@@ -204,8 +237,7 @@ function postureAlgorithm() {
     let isRightSide = false;
     if (rightEar.score > leftEar.score) {
       isRightSide = true;
-    }
-    else {
+    } else {
       isRightSide = false;
     }
 
@@ -223,8 +255,7 @@ function postureAlgorithm() {
       dominantEar = rightEar;
       dominantKnee = rightKnee;
       dominantAnkle = rightAnkle;
-    }
-    else {
+    } else {
       dominantShoulder = leftShoulder;
       dominantHip = leftHip;
       dominantEar = rightEar;
@@ -232,42 +263,41 @@ function postureAlgorithm() {
       dominantAnkle = leftAnkle;
     }
 
-    let shoulderToHipDifferenceX = dominantShoulder.position.x - dominantHip.position.x;
-    let earToShoulderDifferenceX = dominantEar.position.x - dominantShoulder.position.x;
+    let shoulderToHipDifferenceX =
+      dominantShoulder.position.x - dominantHip.position.x;
+    let earToShoulderDifferenceX =
+      dominantEar.position.x - dominantShoulder.position.x;
     let kneeToHipDifferenceY = dominantKnee.position.y - dominantHip.position.y;
 
     // Set isGoodShoulderPosture
     if (abs(shoulderToHipDifferenceX) < 30) {
       posture.isGoodShoulderPosture = true;
-    }
-    else {
+    } else {
       posture.isGoodShoulderPosture = false;
     }
 
     // Set isGoodHeadPosture
     if (abs(earToShoulderDifferenceX) < 30) {
       posture.isGoodHeadPosture = true;
-    }
-    else {
+    } else {
       posture.isGoodHeadPosture = false;
     }
 
     if (posture.isGoodShoulderPosture && posture.isGoodHeadPosture) {
       posture.isGoodPosture = true;
-    }
-    else {
+    } else {
       posture.isGoodPosture = false;
     }
 
     // Detect if standing
     averageHipPositionY = (leftHip.position.y + rightHip.position.y) / 2;
     averageKneePositionY = (leftKnee.position.y + rightKnee.position.y) / 2;
-    differenceBetweenAverageHipAndKneePositionY = averageHipPositionY - averageKneePositionY;
+    differenceBetweenAverageHipAndKneePositionY =
+      averageHipPositionY - averageKneePositionY;
 
     if (abs(differenceBetweenAverageHipAndKneePositionY) > 100) {
       posture.isStanding = true;
-    }
-    else {
+    } else {
       posture.isStanding = false;
     }
   }
@@ -287,8 +317,7 @@ function drawKeypoints() {
       if (keypoint.score > 0.2) {
         if (posture.isGoodPosture) {
           fill(0, 255, 0);
-        }
-        else {
+        } else {
           fill(255, 0, 0);
         }
         noStroke();
@@ -309,11 +338,15 @@ function drawSkeleton() {
       let partB = skeleton[j][1];
       if (posture.isGoodPosture) {
         stroke(0, 255, 0);
-      }
-      else {
+      } else {
         stroke(255, 0, 0);
       }
-      line(partA.position.x, partA.position.y, partB.position.x, partB.position.y);
+      line(
+        partA.position.x,
+        partA.position.y,
+        partB.position.x,
+        partB.position.y
+      );
     }
   }
 }
