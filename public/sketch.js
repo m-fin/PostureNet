@@ -138,7 +138,7 @@ function postureChart() {
       datasets: [
         {
           label: "My First Dataset",
-          data: [po, 50, 100],
+          data: [100, 50, 100],
           backgroundColor: [
             "rgb(255, 99, 132)",
             "rgb(54, 162, 235)",
