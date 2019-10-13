@@ -17,7 +17,10 @@ var posture = {
   timeStanding: 0,
 
   timeGoodPosture: 0,
-  timeBadPosture: 0
+  timeBadPosture: 0,
+
+  timeSpentStanding: 0,
+  timeSpentSitting: 0,
 };
 
 function setup() {
@@ -141,6 +144,52 @@ function postureChart() {
             backgroundColor: [
               "rgb(28, 200, 138)",
               "rgb(231, 74, 49)",
+            ]
+          }
+        ]
+      }
+    });
+  }
+}
+
+
+setInterval(standSitChart, 1000);
+function standSitChart() {
+  if (page === "stats.html") {
+    if (posture.isStanding === false) {
+      posture.timeSpentSitting += 1;
+    } else {
+      posture.timeSpentStanding += 1;
+    }
+
+
+
+    console.log(posture.isStanding);
+    let totalTimeSitStanding = posture.timeSpentStanding + posture.timeSpentSitting;
+    let percentageSitting = posture.timeSpentSitting / totalTimeSitStanding;
+    let percentageStanding = posture.timeSpentStanding / totalTimeSitStanding;
+
+    // Sitting Standing Chart
+    new Chart(document.getElementById("sittingStandingChart"), {
+      type: "doughnut",
+      options: {
+        animation: {
+          duration: 0
+
+        },
+
+      },
+      data: {
+        labels: ["Sitting", "Standing"],
+        datasets: [
+          {
+            label: "Sitting Standing Ratios",
+            data: [percentageSitting, percentageStanding],
+            backgroundColor: [
+              "rgb(28, 200, 138)",
+              "rgb(231, 74, 49)",
+
+
             ]
           }
         ]
