@@ -159,18 +159,21 @@ function postureChart() {
 }
 
 
-setInterval(standSitChart, 500);
+setInterval(standSitChart, 1000);
 function standSitChart() {
   if (page === "stats.html") {
-    if (posture.isStanding) {
-      posture.timeSpentStanding += 1;
-    } else {
+    if (posture.isStanding === false) {
       posture.timeSpentSitting += 1;
+    } else {
+      posture.timeSpentStanding += 1;
     }
-        let totalTimeSitStanding = posture.timeSpentStanding + posture.timeSpentSitting;
-        let percentageSitting = posture.timeSpentStanding / totalTimeSitStanding;
-        let percentageStanding = posture.timeSpentSitting / totalTimeSitStanding;
+        
+   
 
+        console.log(posture.isStanding);
+        let totalTimeSitStanding = posture.timeSpentStanding + posture.timeSpentSitting;
+        let percentageSitting = posture.timeSpentSitting / totalTimeSitStanding;
+        let percentageStanding = posture.timeSpentStanding / totalTimeSitStanding;
 
     // Sitting Standing Chart
     new Chart(document.getElementById("sittingStandingChart"), {
@@ -178,19 +181,21 @@ function standSitChart() {
       options: {
         animation: {
           duration: 0
+          
         },
 
       },
-
       data: {
         labels: ["Sitting", "Standing"],
         datasets: [
           {
             label: "Sitting Standing Ratios",
-            data: [percentageSitting*100, percentageStanding*100],
+            data: [percentageSitting, percentageStanding],
             backgroundColor: [
               "rgb(28, 200, 138)",
               "rgb(231, 74, 49)",
+              
+              
             ]
           }
         ]
