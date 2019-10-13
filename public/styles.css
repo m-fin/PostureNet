@@ -20,3 +20,7 @@
     margin: 0 auto;
     width: 800px;
 }
+
+.bg-gradient-primary {
+    background-image: linear-gradient(180deg,#F28F0D 10%,#F28F0D 100%);
+}
