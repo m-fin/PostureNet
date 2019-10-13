@@ -21,7 +21,7 @@ function setup() {
   var path = window.location.pathname;
   var page = path.split("/").pop();
 
-  if (page === "stats.html") {
+  if (window.location.href === "stats.html") {
     createCanvas(0, 0);
   } else {
     createCanvas(640, 480);
