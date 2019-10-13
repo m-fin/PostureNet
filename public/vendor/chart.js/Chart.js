@@ -4428,7 +4428,7 @@ var valueOrDefault$4 = helpers$1.valueOrDefault;
 core_defaults._set('doughnut', {
 	animation: {
 		// Boolean - Whether we animate the rotation of the Doughnut
-		animateRotate: true,
+		animateRotate: false,
 		// Boolean - Whether we animate scaling the Doughnut from the centre
 		animateScale: false
 	},
