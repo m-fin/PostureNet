@@ -5,6 +5,9 @@ let video;
 var path = window.location.pathname;
 var page = path.split("/").pop();
 
+var globalSittingTime;
+var globalBreakTime;
+
 var posture = {
   isGoodShoulderPosture: false,
   isGoodHeadPosture: false,
@@ -38,6 +41,9 @@ function setup() {
   });
   // Hide the video element, and just show the canvas
   video.hide();
+
+  globalSittingTime = 25 * 60;
+  globalBreakTime = 25 * 60;
 }
 
 function modelReady() {
