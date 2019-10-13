@@ -2,6 +2,9 @@ let poseNet;
 let poses = [];
 let video;
 
+var path = window.location.pathname;
+var page = path.split("/").pop();
+
 var posture = {
   isGoodShoulderPosture: false,
   isGoodHeadPosture: false,
@@ -18,9 +21,6 @@ var posture = {
 };
 
 function setup() {
-  var path = window.location.pathname;
-  var page = path.split("/").pop();
-
   if (page === "stats.html") {
     createCanvas(0, 0);
   } else {
@@ -48,7 +48,9 @@ function draw() {
 
   postureAlgorithm();
 
-  postureStatistics();
+  if (page === "stats.html") {
+    postureStatistics();
+  }
 
   // We can call both functions to draw all keypoints and the skeletons
   drawKeypoints();
@@ -109,104 +111,89 @@ function postureStatistics() {
 
 setInterval(postureChart, 1000);
 function postureChart() {
-  if (posture.isGoodPosture) {
-    posture.timeGoodPosture += 1;
-  } else {
-    posture.timeBadPosture += 1;
-  }
+  if (page === "stats.html") {
+    if (posture.isGoodPosture) {
+      posture.timeGoodPosture += 1;
+    } else {
+      posture.timeBadPosture += 1;
+    }
 
-  let totalPostureTime = posture.timeGoodPosture + posture.timeBadPosture;
-  let percentageGoodPosture = posture.timeGoodPosture / totalPostureTime;
-  let percentageBadPosture = posture.timeBadPosture / totalPostureTime;
+    let totalPostureTime = posture.timeGoodPosture + posture.timeBadPosture;
+    let percentageGoodPosture = posture.timeGoodPosture / totalPostureTime;
+    let percentageBadPosture = posture.timeBadPosture / totalPostureTime;
 
-  //Chart
+    //Chart
+    new Chart(document.getElementById("postureChart"), {
+      type: "doughnut",
+      options: {
+        animation: {
+          duration: 0
+        },
 
-  new Chart(document.getElementById("postureChart"), {
-    type: "doughnut",
-    options: {
-      animation: {
-        duration: 0
       },
 
-    },
-
-    data: {
-      labels: ["Good", "Bad"],
-      datasets: [
-        {
-          label: "My First Dataset",
-          data: [percentageGoodPosture*100, percentageBadPosture*100],
-          backgroundColor: [
-            "rgb(28, 200, 138)",
-            "rgb(231, 74, 49)",
-           
-           
-            
-        
-          ]
-        }
-      ]
-    }
-  });
-
-  // var chart = new CanvasJS.Chart("chartContainer", {
-  //   data: [{
-  //     type: "pie",
-  //     startAngle: 240,
-  //     yValueFormatString: "##0.00\"%\"",
-  //     indexLabel: "{label} {y}",
-  //     dataPoints: [
-  //       { y: percentageGoodPosture, label: "Good" },
-  //       { y: percentageBadPosture, label: "Bad" },
-  //     ]
-  //   }]
-  // });
-  // chart.render();
+      data: {
+        labels: ["Good", "Bad"],
+        datasets: [
+          {
+            label: "My First Dataset",
+            data: [percentageGoodPosture * 100, percentageBadPosture * 100],
+            backgroundColor: [
+              "rgb(28, 200, 138)",
+              "rgb(231, 74, 49)",
+            ]
+          }
+        ]
+      }
+    });
+  }
 }
 
 setInterval(sittingTimer, 1000);
 function sittingTimer() {
-  if (!posture.isStanding) {
-    posture.timeSitting += 1;
-  } else {
-    posture.timeSitting = 0;
-  }
+  if (page === "stats.html") {
+    if (!posture.isStanding) {
+      posture.timeSitting += 1;
+    } else {
+      posture.timeSitting = 0;
+    }
 
 
-  let s = 25 * 60 - posture.timeSitting;
+    let s = 25 * 60 - posture.timeSitting;
 
-  if (s > 0) {
-    document.getElementById("sittingTimer").innerHTML =
-      (s - (s %= 60)) / 60 + (9 < s ? ":" : ":0") + s;
-  } else {
-    document.getElementById("sittingTimer").innerHTML = "0:00";
-  }
+    if (s > 0) {
+      document.getElementById("sittingTimer").innerHTML =
+        (s - (s %= 60)) / 60 + (9 < s ? ":" : ":0") + s;
+    } else {
+      document.getElementById("sittingTimer").innerHTML = "0:00";
+    }
 
-  // Sitting card
-  if (s < 0) {
-    document.getElementById("displayIsStanding").classList.remove("bg-success");
-    document.getElementById("displayIsStanding").classList.remove("bg-primary");
+    // Sitting card
+    if (s < 0) {
+      document.getElementById("displayIsStanding").classList.remove("bg-success");
+      document.getElementById("displayIsStanding").classList.remove("bg-primary");
 
-    document.getElementById("displayIsStanding").classList.add("bg-warning");
-    document.getElementById("displayIsStandingSubtext").innerHTML = "Time to take a break!";
-  }
-  else if (posture.isStanding) {
-    document.getElementById("displayIsStanding").classList.remove("bg-warning");
-    document.getElementById("displayIsStanding").classList.remove("bg-success");
+      document.getElementById("displayIsStanding").classList.add("bg-warning");
+      document.getElementById("displayIsStandingSubtext").innerHTML = "Time to take a break!";
+    }
+    else if (posture.isStanding) {
+      document.getElementById("displayIsStanding").classList.remove("bg-warning");
+      document.getElementById("displayIsStanding").classList.remove("bg-success");
 
-    document.getElementById("displayIsStanding").classList.add("bg-primary");
-    document.getElementById("displayIsStandingSubtext").innerHTML = "You are standing.";
-  }
-  else {
-    document.getElementById("displayIsStanding").classList.remove("bg-warning");
-    document.getElementById("displayIsStanding").classList.remove("bg-primary");
+      document.getElementById("displayIsStanding").classList.add("bg-primary");
+      document.getElementById("displayIsStandingSubtext").innerHTML = "You are standing.";
+    }
+    else {
+      document.getElementById("displayIsStanding").classList.remove("bg-warning");
+      document.getElementById("displayIsStanding").classList.remove("bg-primary");
 
-    document.getElementById("displayIsStanding").classList.add("bg-success");
-    document.getElementById("displayIsStandingSubtext").innerHTML = "You are sitting.";
-  }
+      document.getElementById("displayIsStanding").classList.add("bg-success");
+      document.getElementById("displayIsStandingSubtext").innerHTML = "You are sitting.";
+    }
 
-  if (s === -1) {
-    alert("Time to take a break!");
+    if (s === -1) {
+      alert("Time to take a break!");
+    }
   }
 }
 
