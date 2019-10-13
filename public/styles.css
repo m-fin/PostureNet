@@ -6,8 +6,13 @@
     display: block;
     width: 800px;
 }
+
+.sitting-clock {
+    text-align: center;
+    font-size: 60px
+}
+
 .postureAlign {
-  
         /* This could be done in one single declaration. See the extended sample. */
         margin-right: auto;
         margin-left: auto;

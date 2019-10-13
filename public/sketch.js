@@ -41,7 +41,6 @@ function setup() {
 }
 
 function modelReady() {
-  select("#status").html("Model Loaded");
 }
 
 function draw() {
@@ -172,8 +171,9 @@ function sittingTimer() {
     posture.timeSitting = 0;
   }
 
-  // let s = 25 * 60 - posture.timeSitting;
+
   let s = 25 * 60 - posture.timeSitting;
+
   if (s > 0) {
     document.getElementById("sittingTimer").innerHTML =
       (s - (s %= 60)) / 60 + (9 < s ? ":" : ":0") + s;
@@ -181,7 +181,28 @@ function sittingTimer() {
     document.getElementById("sittingTimer").innerHTML = "0:00";
   }
 
-  document.getElementById("isStanding").innerHTML = posture.isStanding;
+  // Sitting card
+  if (s < 0) {
+    document.getElementById("displayIsStanding").classList.remove("bg-success");
+    document.getElementById("displayIsStanding").classList.remove("bg-primary");
+
+    document.getElementById("displayIsStanding").classList.add("bg-warning");
+    document.getElementById("displayIsStandingSubtext").innerHTML = "Time to take a break!";
+  }
+  else if (posture.isStanding) {
+    document.getElementById("displayIsStanding").classList.remove("bg-warning");
+    document.getElementById("displayIsStanding").classList.remove("bg-success");
+
+    document.getElementById("displayIsStanding").classList.add("bg-primary");
+    document.getElementById("displayIsStandingSubtext").innerHTML = "You are standing.";
+  }
+  else {
+    document.getElementById("displayIsStanding").classList.remove("bg-warning");
+    document.getElementById("displayIsStanding").classList.remove("bg-primary");
+
+    document.getElementById("displayIsStanding").classList.add("bg-success");
+    document.getElementById("displayIsStandingSubtext").innerHTML = "You are sitting.";
+  }
 
   if (s === -1) {
     alert("Time to take a break!");
