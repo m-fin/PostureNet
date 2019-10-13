@@ -1,6 +1,6 @@
-let video;
 let poseNet;
 let poses = [];
+let video;
 
 var posture = {
   isGoodShoulderPosture: false,
@@ -95,6 +95,26 @@ function calculateStatistics() {
   else {
     document.getElementById("displayHeadPosture").classList.remove("bg-danger");
     document.getElementById("displayHeadPostureSubtext").innerHTML = "Good Posture!";
+  }
+
+  // Legs card
+  if (!posture.isGoodLegPosture) {
+    document.getElementById("displayLegPosture").classList.add("bg-danger");
+    document.getElementById("displayLegPostureSubtext").innerHTML = "Keep your legs parallel to the floor.";
+  }
+  else {
+    document.getElementById("displayLegPosture").classList.remove("bg-danger");
+    document.getElementById("displayLegPostureSubtext").innerHTML = "Good Posture!";
+  }
+
+  // Legs card
+  if (!posture.isGoodAnklePosture) {
+    document.getElementById("displayAnklePosture").classList.add("bg-danger");
+    document.getElementById("displayAnklePostureSubtext").innerHTML = "Keep your feet perpendicular to the floor.";
+  }
+  else {
+    document.getElementById("displayAnklePosture").classList.remove("bg-danger");
+    document.getElementById("displayAnklePostureSubtext").innerHTML = "Good Posture!";
   }
 
   // if (!posture.isGoodHeadPosture)
@@ -217,72 +237,6 @@ function postureAlgorithm() {
     }
   }
 }
-
-// function isGoodPosture() {
-//   let isGoodShoulderPosture = false;
-//   let isGoodHeadPosture = false;
-
-//   for (let i = 0; i < poses.length; i++) {
-//     // For each pose detected, loop through all the keypoints
-//     let pose = poses[i].pose;
-
-//     leftEar = pose.keypoints[3];
-//     rightEar = pose.keypoints[4];
-
-//     leftHip = pose.keypoints[11];
-//     rightHip = pose.keypoints[12];
-
-//     let dominantEar;
-//     let dominantHip;
-
-//     if (leftEar.score > rightEar.score) {
-//       dominantEar = leftEar;
-//       dominantHip = leftHip;
-//     }
-//     else {
-//       dominantEar = rightEar;
-//       dominantHip = rightHip;
-//     }
-
-//     let earToHipDifference = dominantEar.position.x - dominantHip.position.x;
-
-//     // let goodPosture = false;
-//     if (abs(earToHipDifference) < 30) {
-//       return true;
-//     }
-//     else {
-//       return false;
-//     }
-//   }
-// }
-
-// function isStanding() {
-//   for (let i = 0; i < poses.length; i++) {
-//     // For each pose detected, loop through all the keypoints
-//     let pose = poses[i].pose;
-
-//     leftHip = pose.keypoints[11];
-//     rightHip = pose.keypoints[12];
-
-//     leftKnee = pose.keypoints[13];
-//     rightKnee = pose.keypoints[14];
-
-//     averageHipPositionY = (leftHip.position.y + rightHip.position.y) / 2;
-//     averageKneePositionY = (leftKnee.position.y + rightKnee.position.y) / 2;
-
-//     let isStanding = false;
-//     differenceBetweenAverageHipAndKneePositionY = averageHipPositionY - averageKneePositionY;
-
-//     if (abs(differenceBetweenAverageHipAndKneePositionY) > 50) {
-//       isStanding = true;
-//     }
-
-//     document.getElementById("output").innerHTML = isStanding;
-
-//     return isStanding;
-//   }
-// }
-
 
 // A function to draw ellipses over the detected keypoints
 function drawKeypoints() {
