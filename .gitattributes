@@ -1,1 +1,2 @@
-language=javascript
+* linguist-vendored
+*.css linguist-vendored=false
