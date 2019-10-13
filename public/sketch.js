@@ -162,8 +162,6 @@ function standSitChart() {
       posture.timeSpentStanding += 1;
     }
 
-
-
     console.log(posture.isStanding);
     let totalTimeSitStanding = posture.timeSpentStanding + posture.timeSpentSitting;
     let percentageSitting = posture.timeSpentSitting / totalTimeSitStanding;
@@ -177,7 +175,6 @@ function standSitChart() {
           duration: 0
 
         },
-
       },
       data: {
         labels: ["Sitting", "Standing"],
@@ -187,9 +184,7 @@ function standSitChart() {
             data: [percentageSitting, percentageStanding],
             backgroundColor: [
               "rgb(28, 200, 138)",
-              "rgb(231, 74, 49)",
-
-
+              "rgb(242, 143, 13)",
             ]
           }
         ]
