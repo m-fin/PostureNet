@@ -5,8 +5,8 @@ let video;
 var posture = {
   isGoodShoulderPosture: false,
   isGoodHeadPosture: false,
-  isGoodLegPosture: false,
-  isGoodAnklePosture: false,
+  isGoodLegPosture: true,
+  isGoodAnklePosture: true,
   isGoodPosture: false,
   isStanding: false,
 
@@ -133,14 +133,15 @@ function postureChart() {
       },
 
     data: {
-      labels: ["Bad Posture", "Good Posture",],
+      labels: ["Good", "Bad"],
       datasets: [
         {
           label: "My First Dataset",
-          data: [percentageBadPosture*100, percentageGoodPosture*100],
+          data: [percentageGoodPosture*100, percentageBadPosture*100],
           backgroundColor: [
-            "rgb(255, 99, 132)",
-            "rgb(54, 162, 235)",
+            "rgb(28, 200, 138)",
+            "rgb(231, 74, 49)",
+           
            
             
         
