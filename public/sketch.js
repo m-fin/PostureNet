@@ -21,7 +21,7 @@ function setup() {
   var path = window.location.pathname;
   var page = path.split("/").pop();
 
-  if (window.location.href === "stats.html") {
+  if (page === "stats.html") {
     createCanvas(0, 0);
   } else {
     createCanvas(640, 480);
@@ -309,6 +309,12 @@ function postureAlgorithm() {
       posture.isGoodPosture = true;
     } else {
       posture.isGoodPosture = false;
+    }
+    // Set isGoodAnklePosture
+    if (abs(earToShoulderDifferenceX) < 30) {
+      posture.isGoodHeadPosture = true;
+    } else {
+      posture.isGoodHeadPosture = false;
     }
 
     // Detect if standing
