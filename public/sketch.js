@@ -11,7 +11,10 @@ var posture = {
   isStanding: false,
 
   timeSitting: 0,
-  timeStanding: 0
+  timeStanding: 0,
+
+  timeGoodPosture: 0,
+  timeBadPosture: 0
 }
 
 function setup() {
@@ -47,36 +50,14 @@ function draw() {
 
   postureAlgorithm();
 
+  postureStatistics();
+
   // We can call both functions to draw all keypoints and the skeletons
   drawKeypoints();
   drawSkeleton();
 }
 
-setInterval(calculateStatistics, 1000);
-
-function calculateStatistics() {
-  if (!posture.isStanding) {
-    posture.timeSitting += 1;
-  }
-  else {
-    posture.timeSitting = 0;
-  }
-
-  // let s = 25 * 60 - posture.timeSitting;
-  let s = 25 * 60 - posture.timeSitting;
-  if (s > 0) {
-    document.getElementById("sittingTimer").innerHTML = (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s;
-  }
-  else {
-    document.getElementById("sittingTimer").innerHTML = "0:00";
-  }
-
-  document.getElementById("isStanding").innerHTML = posture.isStanding;
-
-  if (s === -1) {
-    alert("Time to take a break!");
-  }
-
+function postureStatistics() {
   // Shoulder card
   if (!posture.isGoodShoulderPosture) {
     document.getElementById("displayShoulderPosture").classList.add("bg-danger");
@@ -116,8 +97,61 @@ function calculateStatistics() {
     document.getElementById("displayAnklePosture").classList.remove("bg-danger");
     document.getElementById("displayAnklePostureSubtext").innerHTML = "Good Posture!";
   }
+}
 
-  // if (!posture.isGoodHeadPosture)
+setInterval(postureChart, 1000);
+function postureChart() {
+  if (posture.isGoodPosture) {
+    posture.timeGoodPosture += 1;
+  }
+  else {
+    posture.timeBadPosture += 1;
+  }
+
+  let totalPostureTime = posture.timeGoodPosture + posture.timeBadPosture;
+  let percentageGoodPosture = posture.timeGoodPosture / totalPostureTime;
+  let percentageBadPosture = posture.timeBadPosture / totalPostureTime;
+
+  //Chart
+
+  // var chart = new CanvasJS.Chart("chartContainer", {
+  //   data: [{
+  //     type: "pie",
+  //     startAngle: 240,
+  //     yValueFormatString: "##0.00\"%\"",
+  //     indexLabel: "{label} {y}",
+  //     dataPoints: [
+  //       { y: percentageGoodPosture, label: "Good" },
+  //       { y: percentageBadPosture, label: "Bad" },
+  //     ]
+  //   }]
+  // });
+  // chart.render();
+}
+
+setInterval(sittingTimer, 1000);
+function sittingTimer() {
+  if (!posture.isStanding) {
+    posture.timeSitting += 1;
+  }
+  else {
+    posture.timeSitting = 0;
+  }
+
+  // let s = 25 * 60 - posture.timeSitting;
+  let s = 25 * 60 - posture.timeSitting;
+  if (s > 0) {
+    document.getElementById("sittingTimer").innerHTML = (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s;
+  }
+  else {
+    document.getElementById("sittingTimer").innerHTML = "0:00";
+  }
+
+  document.getElementById("isStanding").innerHTML = posture.isStanding;
+
+  if (s === -1) {
+    alert("Time to take a break!");
+  }
 }
 
 function postureAlgorithm() {

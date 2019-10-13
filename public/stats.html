@@ -130,7 +130,6 @@
                     </div>
                   </div>
 
-
                   <div class="col-lg-12 mb-4">
                     <div class="card bg-success text-white shadow">
                       <div id="displayLegPosture" class="card-body">
@@ -171,9 +170,11 @@
         </div>
 
       </div>
-      <script src="chart.js"></script>
-      <div id="chartContainer" style="height: 300px; width: 100%;"></div>
-<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+      <script src="./vendor/chart.js/Chart.min.js"></script>
+      <canvas id="myChart" width="400" height="400"></canvas>
+      <script>
+        new Chart(document.getElementById("myChart"), { "type": "doughnut", "data": { "labels": ["Red", "Blue", "Yellow"], "datasets": [{ "label": "My First Dataset", "data": [300, 50, 100], "backgroundColor": ["rgb(255, 99, 132)", "rgb(54, 162, 235)", "rgb(255, 205, 86)"] }] } });
+      </script>
     </div>
     <!-- /.container-fluid -->
 
