@@ -8,8 +8,7 @@ var page = path.split("/").pop();
 var posture = {
   isGoodShoulderPosture: false,
   isGoodHeadPosture: false,
-  isGoodLegPosture: true,
-  isGoodAnklePosture: true,
+  isGoodLegPosture: false,
   isGoodPosture: false,
   isStanding: false,
 
@@ -95,19 +94,6 @@ function postureStatistics() {
   } else {
     document.getElementById("displayLegPosture").classList.remove("bg-danger");
     document.getElementById("displayLegPostureSubtext").innerHTML =
-      "Good Posture!";
-  }
-
-  // Legs card
-  if (!posture.isGoodAnklePosture) {
-    document.getElementById("displayAnklePosture").classList.add("bg-danger");
-    document.getElementById("displayAnklePostureSubtext").innerHTML =
-      "Keep your feet perpendicular to the floor.";
-  } else {
-    document
-      .getElementById("displayAnklePosture")
-      .classList.remove("bg-danger");
-    document.getElementById("displayAnklePostureSubtext").innerHTML =
       "Good Posture!";
   }
 }
@@ -320,7 +306,7 @@ function postureAlgorithm() {
       dominantShoulder.position.x - dominantHip.position.x;
     let earToShoulderDifferenceX =
       dominantEar.position.x - dominantShoulder.position.x;
-    let kneeToHipDifferenceY = dominantKnee.position.y - dominantHip.position.y;
+    let kneeToHipDifferenceY = dominantHip.position.y - dominantKnee.position.y;
 
     // Set isGoodShoulderPosture
     if (abs(shoulderToHipDifferenceX) < 30) {
@@ -336,7 +322,7 @@ function postureAlgorithm() {
       posture.isGoodHeadPosture = false;
     }
 
-    if (posture.isGoodShoulderPosture && posture.isGoodHeadPosture) {
+    if (posture.isGoodShoulderPosture && posture.isGoodHeadPosture && posture.isGoodLegPosture) {
       posture.isGoodPosture = true;
     } else {
       posture.isGoodPosture = false;
@@ -346,6 +332,14 @@ function postureAlgorithm() {
       posture.isGoodHeadPosture = true;
     } else {
       posture.isGoodHeadPosture = false;
+    }
+
+
+     // Set isGoodLegPosture
+     if (abs(kneeToHipDifferenceY) < 15) {
+      posture.isGoodLegPosture = true;
+    } else {
+      posture.isGoodLegPosture = false;
     }
 
     // Detect if standing
