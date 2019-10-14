@@ -335,8 +335,8 @@ function postureAlgorithm() {
     }
 
 
-     // Set isGoodLegPosture
-     if (abs(kneeToHipDifferenceY) < 15) {
+    // Set isGoodLegPosture
+    if (abs(kneeToHipDifferenceY) < 15) {
       posture.isGoodLegPosture = true;
     } else {
       posture.isGoodLegPosture = false;
