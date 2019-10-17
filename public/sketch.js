@@ -11,7 +11,6 @@ var posture = {
   isGoodLegPosture: false,
   isGoodPosture: false,
   isStanding: false,
-
   timeSitting: 0,
   timeStanding: 0,
 
@@ -286,6 +285,8 @@ function postureAlgorithm() {
     let dominantEar;
     let dominantKnee;
     let dominantAnkle;
+    let dominantEye;
+   
 
     // Detect side
     if (isRightSide) {
@@ -294,14 +295,19 @@ function postureAlgorithm() {
       dominantEar = rightEar;
       dominantKnee = rightKnee;
       dominantAnkle = rightAnkle;
+      dominantEye = rightEye;
     } else {
       dominantShoulder = leftShoulder;
       dominantHip = leftHip;
       dominantEar = rightEar;
       dominantKnee = leftKnee;
       dominantAnkle = leftAnkle;
+      dominantEye = leftEye;
     }
-
+    let yDistanceBetweenHeadandHip = 
+      dominantEye.position.y - dominantHip.position.y;
+    let yDistanceBetweenShoulderandHip =
+      dominantShoulder.position.y - dominantHip.position.y;
     let shoulderToHipDifferenceX =
       dominantShoulder.position.x - dominantHip.position.x;
     let earToShoulderDifferenceX =
@@ -316,7 +322,7 @@ function postureAlgorithm() {
     }
 
     // Set isGoodHeadPosture
-    if (abs(earToShoulderDifferenceX) < 30) {
+    if (abs(yDistanceBetweenShoulderandHip / yDistanceBetweenHeadandHip) < .725) {
       posture.isGoodHeadPosture = true;
     } else {
       posture.isGoodHeadPosture = false;
