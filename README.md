@@ -1,6 +1,6 @@
 # PostureNet
 
-### HackNC 2019 Most Innovative Hack Runner Up & Healthiest Hack Runner Up
+### HackNC 2019 Healthiest Hack & Most Innovative Hack Runner Up
 
 [Presentation Slides](https://docs.google.com/presentation/d/1OO_T4BK-tkrcCHk5EADHoAqVLLCWYaZP4yieB96uCGg/edit?usp=sharing)
 
